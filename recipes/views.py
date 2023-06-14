@@ -2,46 +2,43 @@ from django.shortcuts import render, get_list_or_404, get_object_or_404
 from utils.recipes.factory import make_recipe
 from .models import Recipe
 
+
 def home(request):
-    recipes = Recipe.objects.filter(
-            is_published=True
-            ).order_by('-id')
+    recipes = Recipe.objects.filter(is_published=True).order_by("-id")
     return render(
         request,
-        'recipes/pages/home.html',
+        "recipes/pages/home.html",
         context={
-            'recipes': recipes,
+            "recipes": recipes,
         },
     )
+
 
 def category(request, category_id: int):
     recipes = get_list_or_404(
-        Recipe.objects.filter(
-            category__id=category_id, 
-            is_published=True
-            ).order_by('-id')
+        Recipe.objects.filter(category__id=category_id, is_published=True).order_by(
+            "-id"
         )
+    )
     return render(
         request,
-        'recipes/pages/category.html',
+        "recipes/pages/category.html",
         context={
-            'recipes': recipes,
-            'title': f'{recipes[0].category.name} - Category | '
+            "recipes": recipes,
+            "title": f"{recipes[0].category.name} - Category | ",
         },
     )
 
+
 def recipe(request, id: int):
-    recipe = Recipe.objects.filter(
-            pk=id,
-            is_published=True
-            ).first()
+    recipe = Recipe.objects.filter(pk=id, is_published=True).first()
     recipe = get_object_or_404(Recipe, pk=id, is_published=True)
     return render(
         request,
-        'recipes/pages/recipe-view.html',
+        "recipes/pages/recipe-view.html",
         context={
-            'recipe': recipe,
-            'is_recipe_details': True,
-            'title': f'{recipe.title} | ',
+            "recipe": recipe,
+            "is_recipe_details": True,
+            "title": f"{recipe.title} | ",
         },
     )
