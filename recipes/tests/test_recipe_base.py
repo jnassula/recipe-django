@@ -4,7 +4,6 @@ from recipes.models import Recipe, Category, User
 
 class RecipeBaseTest(TestCase):
     def setUp(self):
-        self.make_recipe()
         return super().setUp()
 
     def make_category(self, name="Category"):
