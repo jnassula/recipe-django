@@ -42,3 +42,6 @@ def recipe(request, id: int):
             "title": f"{recipe.title} | ",
         },
     )
+
+def search(request):
+    ...

@@ -10,16 +10,16 @@ class RecipeModelTest(RecipeBaseTest):
 
     def make_recipe_no_default(self):
         recipe = Recipe(
-            category=self.make_category(name='Test Default category'),
-            author=self.make_author(username='newuser'),
-            title='Recipe',
-            description='Recipe Description',
-            slug='recipe-slug',
+            category=self.make_category(name="Test Default category"),
+            author=self.make_author(username="newuser"),
+            title="Recipe",
+            description="Recipe Description",
+            slug="recipe-slug-1000",
             preparation_time=10,
-            preparation_time_unit='Minutos',
+            preparation_time_unit="Minutos",
             servings=5,
-            servings_unit='Porções',
-            preparation_steps='Recipe Preparation Steps',
+            servings_unit="Porções",
+            preparation_steps="Recipe Preparation Steps",
         )
         recipe.full_clean()
         recipe.save()
@@ -42,12 +42,16 @@ class RecipeModelTest(RecipeBaseTest):
         recipe = self.make_recipe_no_default()
         self.assertFalse(
             recipe.preparation_steps_is_html,
-            msg='Recipe preparation_steps_is_html is not False'
+            msg="Recipe preparation_steps_is_html is not False",
         )
 
     def test_recipe_is_published_is_false_by_default(self):
         recipe = self.make_recipe_no_default()
-        self.assertFalse(
-            recipe.is_published,
-            msg='Recipe is published is not False'
-        )
+        self.assertFalse(recipe.is_published, msg="Recipe is published is not False")
+
+    def test_recipe_string_represetation(self):
+        needed = "Recipe Title"
+        self.recipe.title = needed
+        self.recipe.full_clean()
+        self.recipe.save()
+        self.assertEqual(str(self.recipe), needed)
